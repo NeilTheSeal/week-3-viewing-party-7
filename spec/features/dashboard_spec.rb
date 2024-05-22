@@ -21,6 +21,9 @@ RSpec.describe "Dashboard", type: :feature do
   end
 
   it "allows authorized access to dashboard show page" do
+    # allow_any_instance_of(ApplicationController)
+    # .to receive(:current_user).and_return(@user)
+
     visit root_path
 
     click_link "Log In"
