@@ -10,7 +10,7 @@
   <section class='existing-users'>
       <p>Existing Users: </p>
       <% @users.each do |user| %>
-          <li><%= link_to user.email, user_path(user.id) %></li>
+          <div><%= user.email %></div>
       <% end %>
   </section>
 <% end %>
