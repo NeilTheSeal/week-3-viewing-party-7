@@ -1,18 +1,24 @@
-class ViewingPartiesController < ApplicationController 
+class ViewingPartiesController < ApplicationController
   def new
-    @user = User.find(params[:user_id])
-    @movie = Movie.find(params[:movie_id])
-  end 
-  
-  def create 
-    user = User.find(params[:user_id])
+    if session[:user_id]
+      @user = User.find(params[:user_id])
+      @movie = Movie.find(params[:movie_id])
+    else
+      flash[:error] =
+        "You must be logged in or registered to create a Viewing Party."
+      redirect_to "/users/#{params[:user_id]}"
+    end
+  end
+
+  def create
+    user = User.find(session[:user_id])
     user.viewing_parties.create(viewing_party_params)
     redirect_to "/users/#{params[:user_id]}"
-  end 
+  end
 
-  private 
+  private
 
-  def viewing_party_params 
+  def viewing_party_params
     params.permit(:movie_id, :duration, :date, :time)
-  end 
-end 
+  end
+end
