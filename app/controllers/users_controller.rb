@@ -26,11 +26,17 @@ class UsersController < ApplicationController
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
       flash[:success] = "Welcome, #{user.name}"
+      cookies[:location] = params[:location] if params[:location] != ""
       redirect_to root_path
     else
       flash[:error] = "Sorry, your credentials are bad."
       render :login_form
     end
+  end
+
+  def logout_user
+    session[:user_id] = nil
+    redirect_to root_path
   end
 
   private

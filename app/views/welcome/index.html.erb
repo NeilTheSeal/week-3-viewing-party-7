@@ -1,5 +1,10 @@
-<%= button_to "Create New User", register_path, method: :get %>
-<%= link_to "Log In", login_path %>
+<% unless current_user %>
+  <%= button_to "Create New User", register_path, method: :get %>
+  <%= link_to "Log In", login_path %>
+<% else %>
+  <div>Logged in as <%= current_user.name %></div>
+  <div>Location: <%= cookies[:location] %></div>
+<% end %>
 <section class='existing-users'>
     <p>Existing Users: </p>
     <% @users.each do |user| %>
