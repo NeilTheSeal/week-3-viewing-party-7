@@ -1,12 +1,12 @@
 class ViewingPartiesController < ApplicationController
   def new
-    if session[:user_id]
+    if current_user
       @user = User.find(params[:user_id])
       @movie = Movie.find(params[:movie_id])
     else
       flash[:error] =
         "You must be logged in or registered to create a Viewing Party."
-      redirect_to "/users/#{params[:user_id]}"
+      redirect_to "/users/#{params[:user_id]}/movies/#{params[:movie_id]}"
     end
   end
 

@@ -6,8 +6,8 @@ class UsersController < ApplicationController
   end
 
   def show
-    if session[:user_id]
-      @user = User.find(session[:user_id])
+    if current_user
+      @user = current_user
     else
       flash[:error] =
         "You must be logged in or registered to access a user's dashboard"
@@ -32,7 +32,9 @@ class UsersController < ApplicationController
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
       flash[:success] = "Welcome, #{user.name}"
-      cookies[:location] = params[:location] if params[:location] != ""
+      if params[:location] != ""
+        cookies.encrypted[:location] = params[:location]
+      end
       redirect_to root_path
     else
       flash[:error] = "Sorry, your credentials are bad."

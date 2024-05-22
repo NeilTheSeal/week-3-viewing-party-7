@@ -16,7 +16,7 @@ RSpec.describe "Viewing Party" do
     )
   end
 
-  xit "does not allow unauthorized access to viewing party new page" do
+  it "does not allow unauthorized access to viewing party new page" do
     visit "/users/#{@user.id}/movies/#{@movie.id}"
 
     click_button "Create a Viewing Party"
@@ -28,7 +28,7 @@ RSpec.describe "Viewing Party" do
     )
   end
 
-  xit "allows authorized creation of a viewing party" do
+  it "allows authorized creation of a viewing party" do
     visit root_path
 
     click_link "Log In"
@@ -40,13 +40,21 @@ RSpec.describe "Viewing Party" do
 
     visit "/users/#{@user.id}/movies/#{@movie.id}"
 
-    fill_in :movie_id, with: 1
+    click_button "Create a Viewing Party"
+
+    expect(page).to have_current_path(
+      "/users/#{@user.id}/movies/#{@movie.id}/viewing_parties/new"
+    )
+
+    fill_in :title, with: @movie.title
     fill_in :duration, with: 120
     fill_in :date, with: "2021-08-01"
     fill_in :time, with: "18:00"
 
-    click_button "Create a Viewing Party"
+    click_button "Create Viewing Party"
 
-    expect(page).to have_current_path(user_path(@user))
+    expect(page).to have_current_path(
+      user_path(@user)
+    )
   end
 end
